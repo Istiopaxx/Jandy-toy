@@ -1,26 +1,41 @@
 import React, { Component } from 'react';
 
-import { problems } from './problemDate.json';
 
+class Problem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            problem: 
+            {
+                "id": "0",
+                "name": "null",
+                "explanation" : "null"
+            }
+            
+        };
+    }
 
-function Problem({ match }) {
-    
-    
-    const problem = problems.find((problem) => problem.id === match.params.id)
+    componentDidMount() {
+        console.log(this.props.problems.find((problem) => problem.id === this.props.match.params.id));
+        this.setState({problem: this.props.problems.find((problem) => problem.id === this.props.match.params.id)});
+    }
+
     
 
-    return (
-        <>
-            <h2>Problem Detail</h2>
-            <h3>name</h3>
-            <p>{problem.name}</p>
-            <h3>explanation</h3>
-            <p>{problem.explanation}</p>
-        </>
-    )
-        
-    
+    render() {
+        return ( 
+            <>
+                <h2>Problem Detail</h2>
+                <h3>name</h3>
+                <p>{this.state.problem.name}</p>
+                <h3>explanation</h3>
+                <p>{this.state.problem.explanation}</p>
+            </>
+
+        );
+    }
 }
+
 
 
 export default Problem;
