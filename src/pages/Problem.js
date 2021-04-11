@@ -5,13 +5,7 @@ class Problem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            problem: 
-            {
-                "id": "0",
-                "name": "null",
-                "explanation" : "null"
-            }
-            
+            problem: {},
         };
     }
 
@@ -23,6 +17,7 @@ class Problem extends Component {
     
 
     render() {
+        const { problem } = this.state;
         return ( 
             <>
                 <h2>Problem Detail</h2>

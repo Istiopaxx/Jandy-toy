@@ -7,15 +7,7 @@ class Problems extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            problems: 
-            [
-                {
-                    "id": "0",
-                    "name": "null",
-                    "explanation" : "null"
-                }
-            ]
-            
+            problems: [],
         };
     }
 
@@ -31,16 +23,17 @@ class Problems extends Component {
     }
 
     render() {
+        const { problems } = this.state;
         return (
             <>
                 <h1>Problems</h1>
                 <Route 
                     exact path={this.props.match.path} 
-                    render={(props) => <ProblemList problems={this.state.problems} {...props} />}
+                    render={(props) => <ProblemList problems={problems} {...props} />}
                 />
                 <Route 
                     path={`${this.props.match.path}/:id`} 
-                    render={(props) => <Problem problems={this.state.problems} {...props} />}
+                    render={(props) => <Problem problems={problems} {...props} />}
                 />
 
             </>
