@@ -1,36 +1,31 @@
 
+
 const express = require('express');
-const app = express();
-
 const http = require('http');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+
+
+
+const app = express();
 const server = http.createServer(app);
-
-const io = require('socket.io')(server);
-
 const port = process.env.PORT || 3001;
+
+
+const startRouter = require('./routes/start');
+
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+
+
+
 
 server.listen(port, () => {
   console.log(`express is running on ${port}`);
 });
-
-
-
-//public directory open
-app.use('/public', express.static('./public'));
-app.get('/', (req, res) => {
-  res.redirect(302, '/public')
-});
-
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-});
-
-
-
-
-
-
 
 
 let data = {
@@ -48,6 +43,11 @@ let data = {
   ]
 };
 
-app.use('/api', (req, res) => res.json(data));
+
+
+
+app.use('/api/start', startRouter);
+
+app.get('/api', (req, res) => res.json(data));
 
 
