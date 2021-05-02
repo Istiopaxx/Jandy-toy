@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const authController = require('../controllers/authController');
+const stateController = require('../controllers/stateController');
 
 router.use(function(err, req, res, next) {
     console.error(err.stack);
@@ -13,6 +15,12 @@ router.use('/', function(req, res, next) {
     next();
 })
 
+//verifying token
+router.get('/', authController.verify_token);
+//get state from Grading DB
+router.get('/', stateController.get_state);
+//respond state;
+router.get('/', stateController.respond_state);
 
 
 

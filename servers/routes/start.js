@@ -1,6 +1,9 @@
 const express = require('express');
-const crypto = require('crypto');
 const router = express.Router();
+
+const authController = require('../controllers/authController');
+const stateController = require('../controllers/stateController');
+
 
 
 
@@ -11,7 +14,6 @@ router.use(function(err, req, res, next) {
 });
 
 
-
 // logging time
 router.all('/', function(req, res, next) {
     console.log('Time:', Date.now());
@@ -19,63 +21,15 @@ router.all('/', function(req, res, next) {
 });
 
 
-// verifying user_id&problem_id
-router.post('/', function(req, res, next) {
-    const data = req.body;
-
-    const user_id = data.user_id;
-    const problem_id = data.problem_id;
-    // not yet implemented - connect to user, problem DB and verifying
-    
-    console.log(user_id);
-    console.log(problem_id);
-
-    next();
-});
-
-
-// making authToken with problem-id, user-id
-router.post('/', function(req, res, next) {
-    const user_id = req.body.user_id;
-    const problem_id = req.body.problem_id;
-    
-    const authToken = crypto
-        .createHash('sha256')
-        .update(user_id + problem_id)
-        .digest('hex');
-    
-    
-    req.authToken = authToken;
-    console.log(authToken);
-
-    next();
-});
-
+// making authToken with problemId, userId
+router.post('/', authController.make_token);
 
 // make a row at grading DB
-// Key : authToken  Value : problem_id's first state
-router.post('/', function(req, res, next) {
-    // not yet implemented
-
-    next();
-});
-
+// Key : authToken  Value : state and array of tickets
+router.post('/', stateController.create_first_state);
 
 // response json - token, first state
-router.post('/', function(req, res, next) {
-    const authToken = req.authToken;
-    // const firstState = req.firstState;
-    const firstState = {};
-
-    const ret = {
-        "token": authToken,
-        "state": firstState,
-    }
-    console.log(ret);
-
-    res.status(200).json(ret);
-});
-
+router.post('/', stateController.respond_state);
 
 
 module.exports = router;
