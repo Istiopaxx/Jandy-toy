@@ -1,0 +1,8 @@
+{ 
+    "commands": [
+        {
+            "elevator_id": 0,
+            "command": "UP"
+        }
+    ]
+}

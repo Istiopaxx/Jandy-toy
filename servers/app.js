@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 // load dependency
 const express = require('express');
 const http = require('http');
@@ -14,12 +7,113 @@ const morgan = require('morgan');
 
 const startRouter = require('./routes/start');
 const onStateRouter = require('./routes/onState');
+const actionRouter = require('./routes/action');
 
 
 
+const fs = require('fs');
+const parse = require('csv-parse/lib/sync');
 // load config
-const config = require('./config');
+
 const port = process.env.PORT || 3001;
+
+
+
+// =========================================================
+
+
+
+let tickets = fs.readFileSync("./servers/p0.txt", 'utf8');
+
+const outputRaw = parse(tickets);
+
+let output = [];
+
+for(let i = 0; i < outputRaw.length; i++) {
+    output.push([]);
+    for(let j = 0; j < outputRaw[i].length; j++) {
+        let int = parseInt(outputRaw[i][j]);
+        output[i].push(int);
+    }
+}
+
+console.log(output);
+
+const firstdata = {
+    "gradingData" : {
+        "timestamp": 0,
+        "states": [
+            {
+                "id": 0,
+                "floor": 1,
+                "passengers": [],
+                "status": "STOPPED"
+            },
+        ],
+        "tickets": [],
+        "isEnd": false,
+    },
+    "entire_tickets": []
+};
+
+for(let i = 0; i < output.length; i++) {
+    const id = output[i][1];
+    const timestamp = output[i][0];
+    const start = output[i][2];
+    const end = output[i][3];
+
+    const temp = {
+        "id": id,
+        "timestamp": timestamp,
+        "start": start,
+        "end": end
+    };
+    firstdata.entire_tickets.push(temp);
+}
+
+console.log(firstdata.entire_tickets);
+
+
+
+
+let dataList = {};
+
+exports.create_data = function(token) {
+    dataList[token] = firstdata;
+    return firstdata;
+};
+
+exports.select_data = function(token) {
+    return dataList[token];
+};
+
+exports.update_data = function(token, data) {
+    dataList[token] = data;
+};
+
+exports.delete_data = function(token) {
+    delete dataList[token];
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -36,7 +130,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 //set secret key for jwt
-app.set('jwt-secret', config.secret);
 
 
 // server open
@@ -49,6 +142,7 @@ server.listen(port, () => {
 // api route
 app.use('/api/start', startRouter);
 app.use('/api/onState', onStateRouter);
+app.use('/api/action', actionRouter);
 
 let data = {
     "problems": [
@@ -65,6 +159,49 @@ let data = {
     ]
 };
 app.get('/api', (req, res) => res.json(data));
+
+
+
+
+
+
+
+
+
+const dataaa = {
+    "gradingData" : {
+        "timestamp": 0,
+        "states": [
+            {
+                "id": 0,
+                "floor": 6,
+                "passengers": [
+                    {
+                        "id": 0,
+                        "timestamp": 0,
+                        "start": 6,
+                        "end": 1
+                    }
+                ],
+                "status": "OPENED"
+            },
+        ],
+        "tickets": [],
+        "isEnd": false,
+    },
+    "entire_tickets": [
+        {
+            "id": 0,
+            "timestamp": 0,
+            "start": 6,
+            "end": 1,
+        },
+    ]
+};
+
+
+
+
 
 
 

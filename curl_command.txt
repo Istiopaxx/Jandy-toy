@@ -1,0 +1,17 @@
+
+사용자 start api 호출
+curl -X POST -d @sendfile.json -H "Content-Type: application/json" http://localhost:3001/api/start
+
+token으로 onState api 에 GET요청
+curl -X GET \
+-H "x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCIsInByb2JsZW0iOiJlbGV2YXRvciIsImlhdCI6MTYyMDU2NzY4OCwiZXhwIjoxNjIwNTY4Mjg4fQ.lfuBvqNOFxomAGR-7vR4i6FFaKCaNQ5Or2DTGwu1WB8" \
+http://localhost:3001/api/onState
+
+action api 호출
+curl -X POST -d @commands.json \
+-H "x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVzdCIsInByb2JsZW0iOiJlbGV2YXRvciIsImlhdCI6MTYyMDU2NzY4OCwiZXhwIjoxNjIwNTY4Mjg4fQ.lfuBvqNOFxomAGR-7vR4i6FFaKCaNQ5Or2DTGwu1WB8" \
+-H "Content-Type: application/json" \
+http://localhost:3001/api/action
+
+
+

@@ -21,14 +21,13 @@ router.all('/', function(req, res, next) {
 });
 
 
-// making authToken with problemId, userId
+// 토큰 생성
 router.post('/', authController.make_token);
 
-// make a row at grading DB
-// Key : authToken  Value : state and array of tickets
+// 채점DB에 데이터를 생성
 router.post('/', stateController.create_first_state);
 
-// response json - token, first state
+// 데이터를 첨부해 반환
 router.post('/', stateController.respond_state);
 
 
