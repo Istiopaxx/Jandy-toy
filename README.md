@@ -14,10 +14,10 @@ Interactive, state-action 문제를 풀기 위한 채점 api 시스템을 구현
 
 http://localhost:3001/api/ 
 여기서 api 통신이 가능합니다. 
-/api/start 에서는 start api를 호출하여 유저 인증을 위한 토큰을 발급받고, 문제의 상태를 채점DB에 저장하게 됩니다. 
-/api/onState 에서는 onState api를 호출하여 현재 상태를 받습니다. 
-/api/action 에서는 action api를 호출하여 어떤 명령을 내릴지 전달합니다.
-
+1. /api/start 에서는 start api를 호출하여 유저 인증을 위한 토큰을 발급받고, 문제의 상태를 채점DB에 저장하게 됩니다.
+2. /api/onState 에서는 onState api를 호출하여 현재 상태를 받습니다.
+3. /api/action 에서는 action api를 호출하여 어떤 명령을 내릴지 전달합니다.
+#### API와 문제에 관한 자세한 설명은 /docs 내의 문서를 보면 됩니다.
 
 ## curl 테스트
 
@@ -48,6 +48,11 @@ http://localhost:3001/api/action
 ## 직접 테스트 코드 작성
 
 api 호출과 제어를 위한 테스트 코드를 직접 작성하여 통신할 수도 있습니다. 
+
+
+
+
+
 
 
 
